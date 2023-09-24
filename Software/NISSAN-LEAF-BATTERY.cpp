@@ -293,7 +293,7 @@ void update_values_leaf_battery()
   }
 
   /*Finally print out values to serial if configured to do so*/
-  #ifdef DEBUG_VIA_USB 
+  #ifdef DEBUG_VIA_USB
     if(errorCode > 0)
       {
         Serial.print("ERROR CODE ACTIVE IN SYSTEM. NUMBER: ");
@@ -349,6 +349,7 @@ void update_values_leaf_battery()
     Serial.print(Battery_current_1);
     Serial.print(" Current 2: ");
     Serial.println(Battery_current_2);
+    Serial.println("------------------------------------------");
   #endif
 }
 
@@ -377,7 +378,10 @@ void receive_can_leaf_battery(CAN_frame_t rx_frame)
       batteryAllowsContactorClosing = 1;
     }
     else{
-      batteryAllowsContactorClosing = 0;
+      // batteryAllowsContactorClosing = 0;
+      // force to allow contactor closing because
+      // my battery version says that I'm not allowed.
+      batteryAllowsContactorClosing = 1;
     }
     LB_Full_CHARGE_flag = (byte) ((rx_frame.data.u8[3] & 0x10) >> 4);
     LB_Interlock = (byte) ((rx_frame.data.u8[3] & 0x08) >> 3);

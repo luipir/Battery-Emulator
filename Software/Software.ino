@@ -419,10 +419,16 @@ void handle_contactors()
 
   if(timeSpentInFaultedMode > MAX_ALLOWED_FAULT_TICKS)
   {
+    #ifdef DEBUG_VIA_USB
+      Serial.println('ERROR: BMS in fault mode!');
+    #endif
     contactorStatus = SHUTDOWN_REQUESTED;
   }
   if(contactorStatus == SHUTDOWN_REQUESTED)
   {
+    #ifdef DEBUG_VIA_USB
+      Serial.println('!!!Shutting down contactors!!!');
+    #endif
     digitalWrite(PRECHARGE_PIN, LOW);
     digitalWrite(NEGATIVE_CONTACTOR_PIN, LOW);
     digitalWrite(POSITIVE_CONTACTOR_PIN, LOW);
@@ -432,6 +438,9 @@ void handle_contactors()
   //After that, check if we are OK to start turning on the battery
   if(contactorStatus == DISCONNECTED)
   {
+    #ifdef DEBUG_VIA_USBBB
+      Serial.println("Contactors: status is DISCONNECTED");
+    #endif
     digitalWrite(PRECHARGE_PIN, LOW);
     #ifdef PWM_CONTACTOR_CONTROL
       ledcWrite(POSITIVE_PWM_Ch, 0);
@@ -440,6 +449,9 @@ void handle_contactors()
 
     if(batteryAllowsContactorClosing && inverterAllowsContactorClosing)
     {
+      #ifdef DEBUG_VIA_USB
+        Serial.println("Contactors: request to precharge");
+      #endif
       contactorStatus = PRECHARGE;
     }
   }
@@ -449,6 +461,9 @@ void handle_contactors()
   {
     if (!inverterAllowsContactorClosing) contactorStatus = DISCONNECTED;
     //Skip running the state machine below if it has already completed
+    #ifdef DEBUG_VIA_USB
+      //Serial.println("Contactors: request to open from Inverter");
+    #endif
     return;
   }
 
@@ -456,6 +471,9 @@ void handle_contactors()
   //Handle actual state machine. This first turns on Precharge, then Negative, then Positive, and finally turns OFF precharge
   switch (contactorStatus) {
     case PRECHARGE:
+      #ifdef DEBUG_VIA_USB
+        Serial.println("Contactors: Precharge on");
+      #endif
       digitalWrite(PRECHARGE_PIN, HIGH);
       prechargeStartTime = currentTime;
       contactorStatus = NEGATIVE;
@@ -463,6 +481,9 @@ void handle_contactors()
 
     case NEGATIVE:
       if (currentTime - prechargeStartTime >= PRECHARGE_TIME_MS) {
+        #ifdef DEBUG_VIA_USB
+          Serial.println("Contactors: Negative on");
+        #endif
         digitalWrite(NEGATIVE_CONTACTOR_PIN, HIGH);
         #ifdef PWM_CONTACTOR_CONTROL
           ledcWrite(NEGATIVE_PWM_Ch, 1023);
@@ -474,6 +495,9 @@ void handle_contactors()
 
     case POSITIVE:
       if (currentTime - negativeStartTime >= NEGATIVE_CONTACTOR_TIME_MS) {
+        #ifdef DEBUG_VIA_USB
+          Serial.println("Contactors: Positive on");
+        #endif
         digitalWrite(POSITIVE_CONTACTOR_PIN, HIGH);
         #ifdef PWM_CONTACTOR_CONTROL
           ledcWrite(POSITIVE_PWM_Ch, 1023);
@@ -484,6 +508,9 @@ void handle_contactors()
 
     case PRECHARGE_OFF:
       if (currentTime - negativeStartTime >= POSITIVE_CONTACTOR_TIME_MS) {
+        #ifdef DEBUG_VIA_USB
+          Serial.println("Contactors: Precharge off");
+        #endif
         digitalWrite(PRECHARGE_PIN, LOW);
         #ifdef PWM_CONTACTOR_CONTROL
           ledcWrite(NEGATIVE_PWM_Ch, PWM_Hold_Duty);
