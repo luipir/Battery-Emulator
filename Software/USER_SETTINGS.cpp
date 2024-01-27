@@ -7,9 +7,9 @@
 volatile uint16_t BATTERY_WH_MAX =
     30000;  //Battery size in Wh (Maximum value for most inverters is 65000 [65kWh], you can use larger batteries but do not set value over 65000!
 volatile uint16_t MAXPERCENTAGE =
-    800;  //80.0% , Max percentage the battery will charge to (App will show 100% once this value is reached)
+    970;  //80.0% , Max percentage the battery will charge to (App will show 100% once this value is reached)
 volatile uint16_t MINPERCENTAGE =
-    200;  //20.0% , Min percentage the battery will discharge to (App will show 0% once this value is reached)
+    20;  //20.0% , Min percentage the battery will discharge to (App will show 0% once this value is reached)
 volatile uint16_t MAXCHARGEAMP =
     300;  //30.0A , BYD CAN specific setting, Max charge speed in Amp (Some inverters needs to be artificially limited)
 volatile uint16_t MAXDISCHARGEAMP =
