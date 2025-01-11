@@ -22,7 +22,7 @@
 //#define KIA_HYUNDAI_HYBRID_BATTERY
 //#define MEB_BATTERY
 //#define MG_5_BATTERY
-//#define NISSAN_LEAF_BATTERY
+#define NISSAN_LEAF_BATTERY
 //#define PYLON_BATTERY
 //#define RJXZS_BMS
 //#define RANGE_ROVER_PHEV_BATTERY
@@ -41,7 +41,7 @@
 
 /* Select inverter communication protocol. See Wiki for which to use with your inverter: https://github.com/dalathegreat/BYD-Battery-Emulator-For-Gen24/wiki */
 //#define AFORE_CAN        //Enable this line to emulate an "Afore battery" over CAN bus
-//#define BYD_CAN          //Enable this line to emulate a "BYD Battery-Box Premium HVS" over CAN Bus
+#define BYD_CAN  //Enable this line to emulate a "BYD Battery-Box Premium HVS" over CAN Bus
 //#define BYD_KOSTAL_RS485 //Enable this line to emulate a "BYD 11kWh HVM battery" over Kostal RS485
 //#define BYD_MODBUS       //Enable this line to emulate a "BYD 11kWh HVM battery" over Modbus RTU
 //#define FOXESS_CAN       //Enable this line to emulate a "HV2600/ECS4100 battery" over CAN bus
@@ -58,18 +58,18 @@
 
 /* Select hardware used for Battery-Emulator */
 //#define HW_LILYGO
-//#define HW_STARK
+#define HW_STARK
 //#define HW_3LB
 //#define HW_DEVKIT
 
 /* Contactor settings. If you have a battery that does not activate contactors via CAN, configure this section */
 #define PRECHARGE_TIME_MS 500  //Precharge time in milliseconds. Modify to suit your inverter (See wiki for more info)
-//#define CONTACTOR_CONTROL     //Enable this line to have the emulator handle automatic precharge/contactor+/contactor- closing sequence (See wiki for pins)
+#define CONTACTOR_CONTROL  //Enable this line to have the emulator handle automatic precharge/contactor+/contactor- closing sequence (See wiki for pins)
 //#define CONTACTOR_CONTROL_DOUBLE_BATTERY //Enable this line to have the emulator hardware control secondary set of contactors for double battery setups (See wiki for pins)
-//#define PWM_CONTACTOR_CONTROL //Enable this line to use PWM for CONTACTOR_CONTROL, which lowers power consumption and heat generation. CONTACTOR_CONTROL must be enabled.
+#define PWM_CONTACTOR_CONTROL  //Enable this line to use PWM for CONTACTOR_CONTROL, which lowers power consumption and heat generation. CONTACTOR_CONTROL must be enabled.
 //#define NC_CONTACTORS         //Enable this line to control normally closed contactors. CONTACTOR_CONTROL must be enabled for this option. Extremely rare setting!
-//#define PERIODIC_BMS_RESET    //Enable to have the emulator powercycle the connected battery every 24hours via GPIO. Useful for some batteries like Nissan LEAF
-//#define REMOTE_BMS_RESET      //Enable to allow the emulator to remotely trigger a powercycle of the battery via MQTT. Useful for some batteries like Nissan LEAF
+#define PERIODIC_BMS_RESET  //Enable to have the emulator powercycle the connected battery every 24hours via GPIO. Useful for some batteries like Nissan LEAF
+// #define REMOTE_BMS_RESET      //Enable to allow the emulator to remotely trigger a powercycle of the battery via MQTT. Useful for some batteries like Nissan LEAF
 
 /* Shunt/Contactor settings */
 //#define BMW_SBOX  // SBOX relay control & battery current/voltage measurement
@@ -94,7 +94,7 @@
 //#define SERIAL_LINK_RECEIVER  //Enable this line to receive battery data over RS485 pins from another Lilygo (This LilyGo interfaces with inverter)
 //#define SERIAL_LINK_TRANSMITTER  //Enable this line to send battery data over RS485 pins to another Lilygo (This LilyGo interfaces with battery)
 #define WIFI
-//#define WIFICONFIG  //Enable this line to set a static IP address / gateway /subnet mask for the device. see USER_SETTINGS.cpp for the settings
+#define WIFICONFIG  //Enable this line to set a static IP address / gateway /subnet mask for the device. see USER_SETTINGS.cpp for the settings
 #define WEBSERVER  //Enable this line to enable WiFi, and to run the webserver. See USER_SETTINGS.cpp for the Wifi settings.
 #define WIFIAP  //When enabled, the emulator will broadcast its own access point Wifi. Can be used at the same time as a normal Wifi connection to a router.
 #define MDNSRESPONDER  //Enable this line to enable MDNS, allows battery monitor te be found by .local address. Requires WEBSERVER to be enabled.
@@ -123,7 +123,7 @@
 // Predefined total energy capacity of the battery in Watt-hours
 #define BATTERY_WH_MAX 30000
 // Increases battery life. If true will rescale SOC between the configured min/max-percentage
-#define BATTERY_USE_SCALED_SOC true
+#define BATTERY_USE_SCALED_SOC false
 // 8000 = 80.0% , Max percentage the battery will charge to (Inverter gets 100% when reached)
 #define BATTERY_MAXPERCENTAGE 8000
 // 2000 = 20.0% , Min percentage the battery will discharge to (Inverter gets 0% when reached)
@@ -137,9 +137,10 @@
 // 300 = 30.0A , Max discharge in Amp (Some inverters needs to be limited)
 #define BATTERY_MAX_DISCHARGE_AMP 300
 // Enable this to manually set voltage limits on how much battery can be discharged/charged. Normally not used.
-#define BATTERY_USE_VOLTAGE_LIMITS false
+#define BATTERY_USE_VOLTAGE_LIMITS true
 // 5000 = 500.0V , Target charge voltage (Value can be tuned on the fly via webserver). Not used unless BATTERY_USE_VOLTAGE_LIMITS = true
-#define BATTERY_MAX_CHARGE_VOLTAGE 5000
+// set to 4.1v per cell
+#define BATTERY_MAX_CHARGE_VOLTAGE 3936
 // 3000 = 300.0V, Target discharge voltage (Value can be tuned on the fly via webserver). Not used unless BATTERY_USE_VOLTAGE_LIMITS = true
 #define BATTERY_MAX_DISCHARGE_VOLTAGE 3000
 
