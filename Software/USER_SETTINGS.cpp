@@ -21,18 +21,18 @@ volatile CAN_Configuration can_config = {
     .shunt = CAN_NATIVE                   // (OPTIONAL) Which CAN is your shunt connected to?
 };
 
-std::string ssid = WIFI_SSID;             // Set in USER_SECRETS.h
-std::string password = WIFI_PASSWORD;     // Set in USER_SECRETS.h
-const char* ssidAP = "Battery Emulator";  // Maximum of 63 characters, also used for device name on web interface
-const char* passwordAP = AP_PASSWORD;     // Set in USER_SECRETS.h
-const uint8_t wifi_channel = 0;           // Set to 0 for automatic channel selection
+std::string ssid = WIFI_SSID;          // Set in USER_SECRETS.h
+std::string password = WIFI_PASSWORD;  // Set in USER_SECRETS.h
+const char* ssidAP = "Stark";          // Maximum of 63 characters, also used for device name on web interface
+const char* passwordAP = AP_PASSWORD;  // Set in USER_SECRETS.h
+const uint8_t wifi_channel = 0;        // Set to 0 for automatic channel selection
 
 #ifdef WEBSERVER
 const char* http_username = HTTP_USERNAME;  // Set in USER_SECRETS.h
 const char* http_password = HTTP_PASSWORD;  // Set in USER_SECRETS.h
 // Set your Static IP address. Only used incase WIFICONFIG is set in USER_SETTINGS.h
-IPAddress local_IP(192, 168, 10, 150);
-IPAddress gateway(192, 168, 10, 1);
+IPAddress local_IP(192, 168, 1, 100);
+IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 #endif  // WEBSERVER
 
